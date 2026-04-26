@@ -322,18 +322,20 @@ function FilterBar({ continent, setContinent, difficulty, setDifficulty, dark })
   );
 }
 
+function DisplayImage({ src }) {
+  if (!src) return null;
+  return (
+    <img
+      src={src}
+      alt="Visual clue"
+      className="w-full rounded-xl mb-3 object-cover max-h-48"
+    />
+  );
+}
+
 function DisplayCard({ display, dark }) {
   if (!display) return null;
   const cardBg = dark ? 'bg-gray-800/60' : 'bg-gray-50';
-
-  const imgEl = display.image ? (
-    <img
-      src={display.image}
-      alt="Visual clue"
-      className="w-full rounded-xl mb-3 object-cover max-h-48"
-      onError={e => { e.target.style.display='none'; }}
-    />
-  ) : null;
 
   if (display.type === 'flag') {
     return (
@@ -346,7 +348,7 @@ function DisplayCard({ display, dark }) {
   if (display.type === 'bullets') {
     return (
       <div>
-        {imgEl}
+        <DisplayImage src={display.image} />
         <div className={`rounded-2xl p-5 ${cardBg} space-y-2`}>
           {(Array.isArray(display.content) ? display.content : [display.content]).map((item, i) => (
             <div key={i} className="flex gap-3">
@@ -362,7 +364,7 @@ function DisplayCard({ display, dark }) {
   if (display.type === 'prose') {
     return (
       <div>
-        {imgEl}
+        <DisplayImage src={display.image} />
         <div className={`rounded-2xl p-5 ${cardBg}`}>
           <p className={`text-sm leading-relaxed ${dark ? 'text-gray-300' : 'text-gray-700'}`}>
             {Array.isArray(display.content) ? display.content[0] : display.content}
